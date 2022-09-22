@@ -115,6 +115,7 @@
     flex-wrap: nowrap;
     align-items: stretch;
     background-color: var(--token-bg-color);
+    background: var(--token-bg-color);
     color: var(--token-color);
     font-family: monospace;
     font-size: 12px;
@@ -176,6 +177,7 @@
   .price {
     flex: 1 1 50% !important;
     background-color: var(--price-bg-color);
+    background: var(--price-bg-color);
     color: var(--price-color);
     padding: 3px 6px;
   }

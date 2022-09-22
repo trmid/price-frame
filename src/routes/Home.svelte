@@ -30,10 +30,10 @@
 	let showStyling = false;
 	let frameWidth = 150;
 	let frameHeight = 25;
-	let c = ["#dddddd", "black", "#eeeeee", "black"];
+	let c = ["#dddddd", "#000000", "#eeeeee", "#000000"];
 	let style = "border-radius: 3px;\nborder: 1px solid #ccc;";
 	$: nativeTokenName = WeaverFi[chain].getInfo().token;
-	$: iframeCode = `<iframe src="${currentURL}#/token?chain=${chain}${tokenAddress ? `&tokenAddress=${tokenAddress}` : ""}${c[0] ? `&c0=${c[0]}` : ''}${c[1] ? `&c1=${c[1]}` : ''}${c[2] ? `&c2=${c[2]}` : ''}${c[3] ? `&c3=${c[3]}` : ''}" title="Price Frame" frameborder="0" width="${frameWidth}" height="${frameHeight}" style="${style.replaceAll(/\n/g, '')}"></iframe>`;
+	$: iframeCode = `<iframe src="${currentURL}#/token?chain=${chain}${tokenAddress ? `&tokenAddress=${tokenAddress}` : ""}${c[0] ? `&c0=${encodeURIComponent(c[0])}` : ''}${c[1] ? `&c1=${encodeURIComponent(c[1])}` : ''}${c[2] ? `&c2=${encodeURIComponent(c[2])}` : ''}${c[3] ? `&c3=${encodeURIComponent(c[3])}` : ''}" title="Price Frame" frameborder="0" width="${frameWidth}" height="${frameHeight}" style="${style.replaceAll(/\n/g, '')}"></iframe>`;
 
 	let copied = false;
 	const copyEmbed = () => {
