@@ -27,11 +27,13 @@
 	const chains = WeaverFi.getAllChains();
 	let chain: UpperCaseChain = "ETH";
 	let tokenAddress: string = "";
+	let showStyling = false;
 	let frameWidth = 150;
 	let frameHeight = 25;
-	let borderRadius = "3px";
+	let c = ["#dddddd", "black", "#eeeeee", "black"];
+	let style = "border-radius: 3px;\nborder: 1px solid #ccc;";
 	$: nativeTokenName = WeaverFi[chain].getInfo().token;
-	$: iframeCode = `<iframe src="${currentURL}#/token?chain=${chain}${tokenAddress ? `&tokenAddress=${tokenAddress}` : ""}" title="Price Frame" frameborder="0" width="${frameWidth}" height="${frameHeight}" ${borderRadius ? `style="border-radius:${borderRadius};"` : ""}></iframe>`;
+	$: iframeCode = `<iframe src="${currentURL}#/token?chain=${chain}${tokenAddress ? `&tokenAddress=${tokenAddress}` : ""}${c[0] ? `&c0=${c[0]}` : ''}${c[1] ? `&c1=${c[1]}` : ''}${c[2] ? `&c2=${c[2]}` : ''}${c[3] ? `&c3=${c[3]}` : ''}" title="Price Frame" frameborder="0" width="${frameWidth}" height="${frameHeight}" style="${style.replaceAll(/\n/g, '')}"></iframe>`;
 
 	let copied = false;
 	const copyEmbed = () => {
@@ -96,9 +98,44 @@
 					{/each}
 				</select>
 				<input type="text" name="token-address" placeholder="Token Address 0x000... (Leave blank for {nativeTokenName})" bind:value={tokenAddress}>
-				<input type="number" name="frame-width" placeholder="Width (px)" bind:value={frameWidth}>
-				<input type="number" name="frame-height" placeholder="Height (px)" bind:value={frameHeight}>
-				<input type="text" name="frame-border-radius" placeholder="Border Radius (3px)" bind:value={borderRadius}>
+				<div class="input-row">
+					<button name="styling-toggle" on:click={() => showStyling = !showStyling}>{showStyling ? "Hide Styling Options" : "Show Styling Options"}</button>
+					<label for="styling-toggle" style:background="linear-gradient(45deg, field, transparent)"></label>
+				</div>
+				{#if showStyling}
+				<div class="input-row">
+					<label for="frame-width">Width</label>
+					<input type="number" name="frame-width" placeholder="Width (px)" bind:value={frameWidth}>
+				</div>
+				<div class="input-row">
+					<label for="frame-height">Height</label>
+					<input type="number" name="frame-height" placeholder="Height (px)" bind:value={frameHeight}>
+				</div>
+				<div class="input-row">
+					<label for="c0">Background Color 1</label>
+					<input type="text" name="c0" placeholder="Background Color 1" bind:value={c[0]}>
+					<input type="color" name="c0" placeholder="Background Color 1" bind:value={c[0]}>
+				</div>
+				<div class="input-row">
+					<label for="c1">Text Color 1</label>
+					<input type="text" name="c1" placeholder="Text Color 1" bind:value={c[1]}>
+					<input type="color" name="c1" placeholder="Text Color 1" bind:value={c[1]}>
+				</div>
+				<div class="input-row">
+					<label for="c2">Background Color 2</label>
+					<input type="text" name="c2" placeholder="Background Color 2" bind:value={c[2]}>
+					<input type="color" name="c2" placeholder="Background Color 2" bind:value={c[2]}>
+				</div>
+				<div class="input-row">
+					<label for="c3">Text Color 2</label>
+					<input type="text" name="c3" placeholder="Text Color 2" bind:value={c[3]}>
+					<input type="color" name="c3" placeholder="Text Color 2" bind:value={c[3]}>
+				</div>
+				<div class="input-row">
+					<label for="css-style">IFrame Styling</label>
+					<textarea rows="3" name="css-style" placeholder="CSS Styling" bind:value={style}></textarea>
+				</div>
+				{/if}
 				<div id="code-row">
 					<input type="text" disabled value={iframeCode}>
 					<button id="copy-btn" class:copied on:click={copyEmbed}>{copied ? "Copied!" : "Copy Embed"}</button>
@@ -202,19 +239,47 @@
 		gap: 0.5rem;
 	}
 
-	input, select, button {
+	input, select, button, textarea {
 		padding: 0.5rem;
 		border-radius: 3px;
+	}
+
+	input[type=color] {
+		padding: 0;
+	}
+
+	textarea {
+		resize: vertical;
 	}
 
 	button {
 		cursor: pointer;
 	}
 
-	#code-row {
+	.input-row > label {
+		flex-grow: 1;
+		font-size: small;
+		font-weight: bold;
+		padding: 0.5rem;
+		border-radius: 3px;
+		background-color: field;
+		color: fieldtext;
+		display: flex;
+		align-items: center;
+	}
+
+	.input-row > input[type=color] {
+		height: 40px;
+	}
+
+	.input-row > textarea {
+		flex-grow: 2;
+	}
+
+	#code-row, .input-row {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: stretch;
 		gap: 0.5rem;
 	}
 

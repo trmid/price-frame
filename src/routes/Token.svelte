@@ -9,6 +9,7 @@
   // Config variables:
   let tokenAddress: string | null;
   let chain: string | null;
+  let searchParams: URLSearchParams;
 
   // Token Data:
   let tokenName: string = "-";
@@ -29,7 +30,6 @@
 
   // Function to refresh token price:
   const refresh = async () => {
-    const searchParams = new URLSearchParams(location.hash.slice(Math.max(0, location.hash.indexOf("?"))));
     tokenAddress = searchParams.get("tokenAddress");
     chain = searchParams.get("chain") ?? "ETH";
     const validChain = WeaverFi.getAllChains().filter(x => x === (chain ?? 'ETH')?.toUpperCase())[0];
@@ -59,9 +59,13 @@
   };
 
   // On Mount:
+  let token: HTMLElement;
   const refreshRate = 1000 * 60; // every 60 sec
   let originURL = "";
   onMount(() => {
+
+    // Get search params:
+    searchParams = new URLSearchParams(location.hash.slice(Math.max(0, location.hash.indexOf("?"))));
 
     // Get origin URL:
     originURL = location.origin;
@@ -73,12 +77,22 @@
     setTimeout(() => {
       setInterval(() => refresh().catch(console.error), refreshRate);
     }, Math.random() * refreshRate);
+
+    // Check for custom css:
+    const tokenBgColor = searchParams.get("c0");
+    const tokenColor = searchParams.get("c1");
+    const priceBgColor = searchParams.get("c2");
+    const priceColor = searchParams.get("c3");
+    if(tokenBgColor) token.style.setProperty("--token-bg-color", tokenBgColor);
+    if(tokenColor) token.style.setProperty("--token-color", tokenColor);
+    if(priceBgColor) token.style.setProperty("--price-bg-color", priceBgColor);
+    if(priceColor) token.style.setProperty("--price-color", priceColor);
   });
 
 </script>
 
 <!-- Token -->
-<a id="token" href="{originURL}" target="_blank" title="{tokenName} Price Frame">
+<a id="token" href="{originURL}" target="_blank" title="{tokenName} Price Frame" bind:this={token}>
   <span class="icon icofont-">
     <img src="{tokenIcon}" alt="{tokenName} icon" />
   </span>
@@ -89,20 +103,23 @@
 <!-- Style -->
 <style>
   #token {
+    --token-bg-color: #ddd;
+    --token-color: black;
+    --price-bg-color: #eee;
+    --price-color: black;
+
     position: fixed;
     inset: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
-    background-color: #ddd;
-    border: 1px solid #ccc;
-    color: black;
+    background-color: var(--token-bg-color);
+    color: var(--token-color);
     font-family: monospace;
     font-size: 12px;
     overflow: auto hidden;
     scrollbar-width: 2px;
-
     text-decoration: none;
   }
 
@@ -134,7 +151,7 @@
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    color: #444;
+    color: inherit;
   }
 
   #token:hover .icon > img {
@@ -158,7 +175,8 @@
 
   .price {
     flex: 1 1 50% !important;
-    background-color: #eee;
+    background-color: var(--price-bg-color);
+    color: var(--price-color);
     padding: 3px 6px;
   }
 
