@@ -1,0 +1,13 @@
+import type { Chain, Address, TokenStatus, Token, LPToken } from './types';
+export declare const addTraderJoeToken: (chain: Chain, location: string, status: TokenStatus, rawBalance: number, owner: Address, contract?: Address) => Promise<import("./types").XToken>;
+export declare const addBeltToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<import("./types").XToken>;
+export declare const addSpookyToken: (chain: Chain, location: string, status: TokenStatus, rawBalance: number, owner: Address, contract?: Address) => Promise<import("./types").XToken>;
+export declare const addAaveBLPToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<LPToken>;
+export declare const add4BeltToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token>;
+export declare const addAlpacaToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token>;
+export declare const addCurveToken: (chain: Chain, location: string, status: TokenStatus, lpToken: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token | LPToken>;
+export declare const addBZXToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token>;
+export declare const addBalancerToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token | LPToken>;
+export declare const addBalancerLikeToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, vault: Address, contract?: Address) => Promise<Token | LPToken>;
+export declare const addAxialToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token>;
+export declare const addStableToken: (chain: Chain, location: string, status: TokenStatus, address: Address, rawBalance: number, owner: Address, contract?: Address) => Promise<Token>;
