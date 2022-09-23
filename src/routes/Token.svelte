@@ -144,15 +144,20 @@
     cursor: pointer;
   }
 
-  #token:hover .icon::after {
+  #token .icon::after {
     content: "\ef4e";
     position: absolute;
     inset: 0;
     display: flex;
+    visibility: hidden;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
     color: inherit;
+  }
+
+  #token:hover .icon::after {
+    visibility: visible;
   }
 
   #token:hover .icon > img {
@@ -163,6 +168,7 @@
     width: 1rem;
     height: 1rem;
     padding: 5px;
+    border-radius: 50%;
   }
 
   .name, .price {

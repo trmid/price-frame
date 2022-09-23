@@ -30,8 +30,8 @@
 	let showStyling = false;
 	let frameWidth = 150;
 	let frameHeight = 25;
-	let c = ["#dddddd", "#000000", "#eeeeee", "#000000"];
-	let style = "border-radius: 3px;\nborder: 1px solid #ccc;";
+	let c = ["#eeeeee", "#000000", "#444444", "#ffffff"];
+	let style = "border-radius: 5px;\nborder: 1px solid #777;";
 	$: nativeTokenName = WeaverFi[chain].getInfo().token;
 	$: iframeCode = `<iframe src="${currentURL}#/token?chain=${chain}${tokenAddress ? `&tokenAddress=${tokenAddress}` : ""}${c[0] ? `&c0=${encodeURIComponent(c[0])}` : ''}${c[1] ? `&c1=${encodeURIComponent(c[1])}` : ''}${c[2] ? `&c2=${encodeURIComponent(c[2])}` : ''}${c[3] ? `&c3=${encodeURIComponent(c[3])}` : ''}" title="Price Frame" frameborder="0" width="${frameWidth}" height="${frameHeight}" style="${style.replaceAll(/\n/g, '')}"></iframe>`;
 
@@ -237,6 +237,9 @@
 		align-items: stretch;
 		max-width: 500px;
 		gap: 0.5rem;
+		padding: 5px;
+    border-radius: 5px;
+    background-color: #4443;
 	}
 
 	input, select, button, textarea {
